@@ -83,5 +83,12 @@ namespace QuanLyBanHang02.Controllers
             var ds = da.Orders.Where(o => o.MaKh == MaKH).Join(da.Customers, o => o.MaKh, c => c.MaKh, (o, c) => new { c.MaKh, o.MaDh, c.HoTenKh, c.Sdt });
             return Ok(ds);
         }
+        //Thong ke theo tuoi
+        [HttpGet("Thong ke do tuoi khach hang")]
+        public IActionResult GetAge(int DoTuoi)
+        {
+            var ds = da.Customers.Where(s => DateTime.Now.Year - s.NgaySinh.Value.Year == DoTuoi).Join(da.Orders, s => s.MaKh, p => p.MaKh, (s, p) => new { p.MaKh, s.HoTenKh, Tuoi = DateTime.Now.Year - s.NgaySinh.Value.Year, p.MaDh, p.NgayDat, p.ThanhToan });
+            return Ok(ds);
+        }
     }
 }
